@@ -1,5 +1,5 @@
 const express = require('express')
-const path = require('Path')
+const path = require('path')
 const {open} = require('sqlite')
 const sqlite3 = require('sqlite3')
 
@@ -13,7 +13,7 @@ const initializeDBAndServer = async () => {
   try {
     db = await open({
       filename: dbPath,
-      driver: sqlite3.database,
+      driver: sqlite3.Database,
     })
     app.listen(3009, () => {
       console.log('Server Running at http://localhost:3009/')
@@ -74,7 +74,7 @@ app.get('/players/:playerId/', async (request, response) => {
 })
 
 //Updates the details of a player in the team (dateabase) based on the player ID
-add.put('/players/:playerId/', async (request, response) => {
+app.put('/players/:playerId/', async (request, response) => {
   const {playerId} = request.params
   const playerDetails = request.body
   const {playerName, jerseyNumber, role} = playerDetails
@@ -101,5 +101,3 @@ app.delete('/players/:playerId/', async (request, response) => {
   await db.run(deletePlayerQuery)
   response.send('Player Removed')
 })
-
-module.exports = app
